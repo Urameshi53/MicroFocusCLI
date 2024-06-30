@@ -47,13 +47,18 @@ class AccessKey(object):
         public_key = key.public_key().export_key()
         #print('Public Key', key.public_key().export_key().decode('utf-8'))
 
-        p = public_key.decode('utf-8').split('\n')
+        p = public_key.decode('utf-8').split('+')
         #print(p)
         p = p[1:]
         p = p[:-1]
         final = ''.join(p)
+        p = final.split('\n')
+        #print(p)
+        p = p[1:]
+        p = p[:-1]
         #print(final)
-
+        final = ''.join(p)
+        
         with open('receiver.pem', 'wb') as f:
             f.write(public_key)
 
@@ -75,14 +80,6 @@ class AccessKey(object):
             f.write(cipher_aes.nonce)
             f.write(tag)
             f.write(ciphertext)
-
-        private_key = RSA.import_key(open('private.pem').read())
-
-        with open('encrypted_data.bin', 'rb') as f:
-            enc_session_key = f.read(private_key.size_in_bytes())
-            nonce = f.read(16)
-            tag = f.read(16)
-            ciphertext = f.read()
         
         return final
 
@@ -115,7 +112,7 @@ class AccessKey(object):
         return self.key_encrypted
     
 
-k = AccessKey()
-print(k.key_plain)
-print(k.key_encrypted)
+#k = AccessKey()
+#print(k.key_plain)
+#print(k.key_encrypted)
 #k.decrypt()

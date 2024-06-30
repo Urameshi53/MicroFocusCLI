@@ -57,7 +57,7 @@ class Mother(object):
             
     def print_data(self):
         for i in self.data.keys():
-            print(str(i), str(self.data[i]), self.data[i].status)
+            print(str(i), str(self.data[i])[:45], self.data[i].status)
     
 
     
